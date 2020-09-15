@@ -14,15 +14,38 @@ function fct_getToken(ps_relPath) {
 var lo_bot = new lo_discord.Client({autoReconnect: true});
 lo_bot.commands = new lo_discord.Collection();
 
+// #region Initialisation des variables
+// Préfixe pour les commandes
+const ls_prefix = "k!"
+
+// Version du bot
+const ls_version = "1.0";
+const li_numeroVersion = 2;
+
+// Activation du mode DEBUG
+var lb_debugMode = true;
+
+// Aide pour le bot
+var ls_helpText = '```Markdown\n'
+ls_helpText += 'Liste des commandes\n';
+ls_helpText += '  - ' + ls_prefix + 'help Affiche ce message d\'aide\n';
+
+// #endregion
+
+// Récupération des commandes
 const commandFiles = lo_fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 
+    ls_helpText += '  - ' + ls_prefix + command.ls_name + ' ' + command.ls_description + '\n';
+
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
 	lo_bot.commands.set(command.ls_name, command);
 }
+
+ls_helpText += '```';
 
 // #region Création d'une connexion à la bdd
 /*var lo_connexionKrokmou = lo_mysql.createConnection({
@@ -49,28 +72,6 @@ lo_connexionLoupGabot.connect(function(lo_erreur) {
         }
     });
 });*/
-// #endregion
-
-// #region Initialisation des variables
-// Préfixe pour les commandes
-const ls_prefix = "k!"
-
-// Version du bot
-const ls_version = "1.0";
-const li_numeroVersion = 2;
-
-// Activation du mode DEBUG
-var lb_debugMode = true;
-
-// Aide pour le bot
-var ls_helpText = "```Liste des commandes\n";
-ls_helpText += " - " + ls_prefix + "aide  Affiche ce message d'aide\n";
-ls_helpText += " - " + ls_prefix + "version  Affiche les informations de version du bot\n";
-ls_helpText += " - " + ls_prefix + "debug  Active ou désactive le mode débug.\n";
-ls_helpText += "   Syntaxe : " + ls_prefix + "debug true|false";
-ls_helpText += "   Debug activé : " + lb_debugMode + "\n";
-ls_helpText += "```";
-
 // #endregion
 
 lo_bot.login(ls_token);
@@ -121,21 +122,30 @@ lo_bot.on('error', po_error => {
 
 lo_bot.on('message', po_message => {
     // Contrôles de l'auteur du message et du préfixe
-    if (!po_message.content.startsWith(ls_prefix) || po_message.author.bot) return;
+    if (!po_message.content.startsWith(ls_prefix)) return;
 
-    var args = po_message.content.slice(ls_prefix.length).trim().split(/ +/);
-    var command = args.shift().toLowerCase();
-    switch (command) {
-        case 'ping':
-            lo_bot.commands.get('ping').execute(po_message, args);
-            break;
-        
-        case 'kick':
-            lo_bot.commands.get('kick').execute(po_message, args);
-            break;
-        default:
-            break;
+    // Commande handler
+    var la_args = po_message.content.slice(ls_prefix.length).trim().split(/ +/);
+    var ls_commandName = la_args.shift().toLowerCase();
+
+    if (ls_commandName == 'help') {
+        po_message.channel.send(ls_helpText);
+    } 
+    else {
+        if (!lo_bot.commands.has(ls_commandName)) {
+            po_message.reply('la commande ' + ls_prefix + ls_commandName + ' n\'existe pas.')
+            po_message.channel.send('k!help');
+            return;
+        }
+
+        var lo_command = lo_bot.commands.get(ls_commandName);
+    
+        try {
+            lo_command.execute(po_message, la_args);
+        } catch (po_error) {
+            po_message.reply('une erreur est survenue lors du traitement de la commande ' + ls_prefix + ls_commandName + '.');
+            console.error(po_error.message);
+        }
     }
-    //if (command === 'ping') lo_bot.commands.get('ping').execute(po_message, args);
     
 });
