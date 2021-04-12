@@ -1,5 +1,5 @@
 module.exports = {
-	fs_nomCommande: 'addModerator',
+	fs_nomCommande: 'addmoderator',
 	fs_descriptionCommande: 'Ajoute un modérateur au pool de modérateur de la base',
 	execute(po_connexionKrokmou, po_message, pa_parametres) {
 		if (!po_message.mentions.users.size) {
