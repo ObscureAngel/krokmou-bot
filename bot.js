@@ -28,15 +28,15 @@ var lb_debugMode = true;
 // Aide pour le bot
 var ls_helpText = '```Markdown\n'
 ls_helpText += 'Liste des commandes\n';
-ls_helpText += '  - ' + ls_prefix + 'help Affiche ce message d\'aide\n';
+ls_helpText += '  - ' + ls_prefix + 'help ou ' + ls_prefix + '? Affiche ce message d\'aide\n';
 
 // #endregion
 
 // Récupération des commandes
 const la_commandFiles = lo_fs.readdirSync('./commands').filter(ps_file => ps_file.endsWith('.js'));
 
-for (const ls_file of la_commandFiles) {
-	const lo_command = require(`./commands/${ls_file}`);
+for (var ls_file of la_commandFiles) {
+	var lo_command = require(`./commands/${ls_file}`);
 
 	ls_helpText += '  - ' + ls_prefix + lo_command.fs_nomCommande + ' ' + lo_command.fs_descriptionCommande + '\n';
 
@@ -128,7 +128,7 @@ lo_bot.on('message', po_message => {
 	var la_parametres = po_message.content.slice(ls_prefix.length).trim().split(/ +/);
 	var ls_nomCommande = la_parametres.shift().toLowerCase();
 
-	if (ls_nomCommande == 'help') {
+	if (ls_nomCommande == 'help' || ls_nomCommande == '?') {
 		po_message.channel.send(ls_helpText);
 	} 
 	else {
