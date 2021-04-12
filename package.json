@@ -1,0 +1,14 @@
+{
+	"name": "krokmou-bot",
+	"description": "Bot de modération pour mon serveur Discord",
+	"version": "1.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ObscureAngel/krokmou-bot"
+	},
+	"author": "Maxime BEACCO",
+	"bugs": {
+		"url": "https://github.com/ObscureAngel/krokmou-bot/issues"
+	},
+	"homepage": "https://github.com/ObscureAngel/krokmou-bot"
+}
