@@ -1,7 +1,8 @@
 module.exports = {
-	ls_name: 'ping',
-	ls_description: 'Pour faire du ping-pong!',
-	execute(lo_message, la_args) {
-		lo_message.channel.send('Pong.');
+	fs_nomCommande: 'ping',
+	fs_descriptionCommande: 'Pour faire du ping-pong !',
+	execute(po_connexionKrokmou, po_message, pa_parametres) {
+		po_message.channel.send('Pong.');
+		po_connexionKrokmou.query("SELECT * FROM kb_ban");
 	},
 };
