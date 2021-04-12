@@ -6,6 +6,18 @@
 		"type": "git",
 		"url": "https://github.com/ObscureAngel/krokmou-bot"
 	},
+	"dependencies": {
+		"discord.js": "^12.5.3",
+		"mysql": "^2.18.1",
+		"fs": "0.0.1-security"
+	},
+	"devDependencies": {
+		"discord.js": "^12.5.3",
+		"mysql": "^2.18.1",
+		"fs": "0.0.1-security",
+		"node-dev": "^6.7.0",
+		"node-notifier": "^8.0.1"
+	},
 	"author": "Maxime BEACCO",
 	"bugs": {
 		"url": "https://github.com/ObscureAngel/krokmou-bot/issues"
