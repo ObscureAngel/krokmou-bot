@@ -77,41 +77,15 @@ lo_connexionKrokmou.connect(function(po_erreur) {
 lo_bot.login(ls_token);
 
 lo_bot.on('ready', () => {
-	console.log(new Date() + ' : Logged in as '+ lo_bot.user.tag);
-
-	// Placer en dessous la création et les changements de structure de la base
-	/*fa_structureBaseOrigine = [
-		"CREATE TABLE lg_carte (bi_idCarte INT PRIMARY KEY AUTO_INCREMENT, bs_nomCarte TEXT, bs_descriptionCarte TEXT, bi_clefRole INT)",
-		"CREATE TABLE lg_role (bi_idRole INT PRIMARY KEY AUTO_INCREMENT, bs_nomRole TEXT, bs_descriptionRole TEXT, bs_snowflakeRole TEXT)",
-		"CREATE TABLE lg_canal (bi_idCanal INT PRIMARY KEY AUTO_INCREMENT, bs_nomCanal TEXT, bs_typeCanal TEXT, bs_snowflakeCanal TEXT, bs_snowflakeServeur TEXT)",
-		"CREATE TABLE lg_version (bi_numeroVersion INT)",
-		"INSERT INTO lg_version VALUES (" + li_numeroVersion + ")"
-	];
-
-	fa_structureBaseChangement = [
-		"UPDATE lg_version SET bi_numeroVersion = " + li_numeroVersion,
-		"ALTER TABLE lg_role CHANGE bi_snowflakeRole bs_snowflakeRole TEXT",
-		"CREATE TABLE lg_canal (bi_idCanal INT PRIMARY KEY AUTO_INCREMENT, bs_nomCanal TEXT, bs_typeCanal TEXT, bs_snowflakeCanal TEXT, bs_snowflakeServeur TEXT)",
-		"ALTER TABLE lg_carte ADD bb_isDistribuable TINYINT(1) DEFAULT 1"
-
-	];*/
+	lo_bot.user.setPresence({
+		activity: {
+			name: 'son développeur...',
+			type: 'LISTENING'
+		},
+		status: 'online'
+	});
 	
-	/*lo_connexionLoupGabot.query("SELECT bi_numeroVersion FROM lg_version", function (po_erreur, po_ligne) {
-		if (po_ligne == undefined) {
-			fa_structureBaseOrigine.forEach(fs_requete => {
-				lo_connexionLoupGabot.query(fs_requete);
-			});
-			console.log('Base crée');
-		}
-		else {
-			if(po_ligne[0].bi_numeroVersion != li_numeroVersion) {
-				fa_structureBaseChangement.forEach(fs_requete => {
-					lo_connexionLoupGabot.query(fs_requete); 
-				});
-				console.log('Base mise à jour');
-			}
-		}
-	});*/
+	console.log(new Date() + ' : Logged in as '+ lo_bot.user.tag);
 });
 
 // En cas d'erreur quelquonque
