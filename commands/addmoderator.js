@@ -6,23 +6,33 @@ module.exports = {
 			return po_message.reply('vous devez mentionner quelqu\'un pour l\'ajouter au pool de modérateurs.');
 		}
 
-		var lo_utilisateurMentionne = po_message.mentions.users.first();
-		var lo_guildMemberManager = po_message.guild.members;
+		var fo_utilisateurMentionne = po_message.mentions.users.first();
+		var fo_guildMemberManager = po_message.guild.members;
 
-		lo_guildMemberManager.fetch(lo_utilisateurMentionne.id)
-			.then(function (po_guildMember){
-				po_connexionKrokmou.query("SELECT * FROM kb_moderator", function (po_erreur, po_ligne) {
+		fo_guildMemberManager.fetch(fo_utilisateurMentionne.id)
+			.then(function (po_guildMember) {
+
+				var fd_dateEnregistrement = new Date();
+				var fs_query = "INSERT INTO kb_moderator (mod_id, mod_tag, mod_active, mod_registredDate) VALUES ("; 
+				fs_query += fo_utilisateurMentionne.id + ", ";
+				fs_query += "'" + fo_utilisateurMentionne.tag + "', ";
+				fs_query += "1, ";
+				fs_query += "'" + fd_dateEnregistrement.toISOString().slice(0, 19).replace('T', ' ') + "'";
+				fs_query += ")";
+
+				po_connexionKrokmou.query(fs_query, function (po_erreur, po_ligne) {
 					if (po_erreur == undefined) {
-						return po_message.reply(lo_utilisateurMentionne.username + ' a bien été ajouté au pool des modérateurs.');
+						return po_message.reply(fo_utilisateurMentionne.username + ' a bien été ajouté au pool des modérateurs.');
 					}
 					else {
-						return po_message.reply(lo_utilisateurMentionne.username + ' n\'a pas pu être ajouté au pool des modérateurs.');
+						console.error(po_erreur);
+						return po_message.reply(fo_utilisateurMentionne.username + ' n\'a pas pu être ajouté au pool des modérateurs.');
 					}
 				});
 			})
 			.catch(function (po_error) {
 				console.error(po_error.message);
-				return po_message.reply(lo_utilisateurMentionne.username + ' est introuvable.')
+				return po_message.reply(fo_utilisateurMentionne.username + ' est introuvable.')
 			});
 	},
 };
