@@ -48,13 +48,13 @@ for (var ls_file of la_commandFiles) {
 ls_helpText += '```';
 
 // #region Création d'une connexion à la bdd
-var lo_connexionKrokmou = lo_mysql.createConnection({
+var lo_poolConnexionKrokmou = lo_mysql.createPool({
 	host : "localhost",
 	user : "root",
 	password : ""
 });
 
-lo_connexionKrokmou.connect(function(po_erreur) {
+lo_poolConnexionKrokmou.getConnection(function(po_erreur, po_connexionKrokmou) {
 	if (po_erreur) {
 		console.error('Erreur lors de la connexion à la BDD');
 		return;
@@ -62,13 +62,14 @@ lo_connexionKrokmou.connect(function(po_erreur) {
 	
 	console.log('Connecté au serveur MySQL');
 
-	lo_connexionKrokmou.query('USE krokmouBot', function(po_erreur, po_ligne) {
+	po_connexionKrokmou.query('USE krokmoubot', function(po_erreur, po_ligne) {
+		po_connexionKrokmou.release();
 		if (po_erreur == undefined) {
 			console.log('Base connectée');
 		}
 		else {
-			lo_connexionKrokmou.query('CREATE DATABASE krokmouBot');
-			lo_connexionKrokmou.query('USE krokmouBot');
+			po_connexionKrokmou.query('CREATE DATABASE krokmoubot');
+			po_connexionKrokmou.query('USE krokmoubot');
 		}
 	});
 });
@@ -115,7 +116,7 @@ lo_bot.on('message', po_message => {
 		var lo_command = lo_bot.la_commands.get(ls_nomCommande);
 	
 		try {
-			lo_command.execute(lo_connexionKrokmou, po_message, la_parametres);
+			lo_command.execute(lo_poolConnexionKrokmou, po_message, la_parametres);
 		} catch (po_error) {
 			po_message.reply('une erreur est survenue lors du traitement de la commande ' + ls_prefix + ls_nomCommande + '.');
 			console.error(po_error.message);
