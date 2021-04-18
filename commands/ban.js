@@ -71,7 +71,7 @@ module.exports = {
 									 * mbeacco - 17/04/2021
 									 * Si l'insertion s'est bien passé, on déclanche le bannissement du membre
 									 */
-									/*po_guildMember.ban({days: fi_daysDeletedMessages, reason: fs_reason})
+									/*fo_guildMemberManager.ban(po_guildMember.user.id, {days: fi_daysDeletedMessages, reason: fs_reason})
 										.then(function (po_bannedGuildMember) {*/
 											return po_message.reply('tu as banni ' + po_guildMember.user.username + ' ! Les messages envoyés depuis ' + fi_daysDeletedMessages + ' jour(s) ont été supprimés.');
 										/*})
