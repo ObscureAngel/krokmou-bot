@@ -39,6 +39,7 @@ for (var ls_file of la_commandFiles) {
 	var lo_command = require(`./commands/${ls_file}`);
 
 	ls_helpText += '  - ' + ls_prefix + lo_command.fs_nomCommande + ' ' + lo_command.fs_descriptionCommande + '\n';
+	ls_helpText += '' + lo_command.fs_usageCommande + '\n\n';
 
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
