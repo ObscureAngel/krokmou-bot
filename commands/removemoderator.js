@@ -1,6 +1,6 @@
 module.exports = {
-	fs_nomCommande: 'removemoderator',
-	fs_descriptionCommande: 'Ajoute un modérateur au pool de modérateur de la base',
+	fs_nomCommande: 'rmoderator',
+	fs_descriptionCommande: 'Retire un modérateur au pool de modérateur de la base',
 	execute(po_poolConnexionKrokmou, po_message, pa_parametres) {
 		if (!po_message.mentions.users.size) {
 			return po_message.reply('vous devez mentionner quelqu\'un pour le retirer du pool des modérateurs.');
