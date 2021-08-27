@@ -23,7 +23,7 @@ module.exports = {
 			fs_query += " WHERE ban_memberUsername LIKE '" + fs_bannedMemberUsername + "%' AND ban_unbanDate IS NULL";
 
 			po_connexionKrokmou.query(fs_query, function (po_erreur, po_editionBanOfUser) {
-				//po_connexionKrokmou.release();
+				po_connexionKrokmou.release();
 
 				if (po_erreur == undefined && po_editionBanOfUser.length == 1) {
 					var fd_dateEnregistrement = new Date();
@@ -37,18 +37,18 @@ module.exports = {
 						po_connexionKrokmou.release();
 
 						if (po_erreur == undefined) {
-							/*fo_guildMemberManager.unban(po_editionBanOfUser[0].ban_memberId)
-								.then(function (po_user) {*/
+							fo_guildMemberManager.unban(po_editionBanOfUser[0].ban_memberId)
+								.then(function (po_user) {
 									return po_message.reply('tu as débanni ' + fs_bannedMemberUsername + ' !');
-								/*})
+								})
 								.catch(function (po_erreur) {
 									console.error(po_erreur.message);
 									return po_message.reply('une erreur est survenue. ' + fs_bannedMemberUsername + ' n\'a pas été débanni.')
-								});*/
+								});
 						}
 						else {
 							console.error(po_erreur);
-							return po_message.reply(fs_bannedMemberUsername + ' n\'a pas pu être ajouté au pool des modérateurs.');
+							return po_message.reply('une erreur est survenue. ' + fs_bannedMemberUsername + ' n\'a pas été débanni.');
 						}
 					});
 				}
