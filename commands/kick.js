@@ -14,7 +14,7 @@ module.exports = {
 
 		lo_guildMemberManager.fetch(lo_taggedUser.id)
 			.then(function (po_guildMember){
-				//po_guildMember.kick(ls_reason);
+				po_guildMember.kick(ls_reason);
 				return po_message.reply('tu as kick ' + lo_taggedUser.username + ' !');
 			})
 			.catch(function (po_error) {
