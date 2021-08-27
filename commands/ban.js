@@ -1,6 +1,7 @@
 module.exports = {
 	fs_nomCommande: 'ban',
 	fs_descriptionCommande: 'Ban someone',
+	fs_usageCommande: 'ban ',
 	execute(po_poolConnexionKrokmou, po_message, pa_parametres) {
 		if (!po_message.mentions.users.size) {
 			return po_message.reply('vous devez mentionner quelqu\'un pour le bannir.');
@@ -71,14 +72,14 @@ module.exports = {
 									 * mbeacco - 17/04/2021
 									 * Si l'insertion s'est bien passé, on déclanche le bannissement du membre
 									 */
-									/*fo_guildMemberManager.ban(po_guildMember.user.id, {days: fi_daysDeletedMessages, reason: fs_reason})
-										.then(function (po_bannedGuildMember) {*/
+									fo_guildMemberManager.ban(po_guildMember.user.id, {days: fi_daysDeletedMessages, reason: fs_reason})
+										.then(function (po_bannedGuildMember) {
 											return po_message.reply('tu as banni ' + po_guildMember.user.username + ' ! Les messages envoyés depuis ' + fi_daysDeletedMessages + ' jour(s) ont été supprimés.');
-										/*})
+										})
 										.catch(function (po_error) {
 											console.error(po_error.message);
 											return po_message.reply('une erreur est survenue. ' + fo_taggedUser.username + ' n\'a pas été banni.')
-										});*/
+										});
 								}
 								else {
 									console.error(po_erreur);
