@@ -85,8 +85,47 @@ DROP TABLE IF EXISTS `krokmoubot`.`kb_blacklist` ;
 
 CREATE TABLE IF NOT EXISTS `krokmoubot`.`kb_blacklist` (
   `bl_bi_idBlacklist` INT NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`kb_bi_idBlacklist`))
-ENGINE = InnoDB;
+  `bl_bi_memberId` BIGINT(18) NOT NULL,
+  `bl_bs_memberUsername` VARCHAR(40) NOT NULL,
+  `bl_bs_reason` VARCHAR(90) NOT NULL,
+  `bl_bi_idCategory` DATE NOT NULL,
+  PRIMARY KEY (`bl_bi_idBlacklist`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `krokmoubot`.`kb_blacklistCategory`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `krokmoubot`.`kb_blacklistCategory` ;
+
+CREATE TABLE IF NOT EXISTS `krokmoubot`.`kb_blacklistCategory` (
+  `bc_bi_idCategory` INT NOT NULL AUTO_INCREMENT,
+  `bc_bs_nameCategory` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`bc_bi_idCategory`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+-- -----------------------------------------------------
+-- Table `krokmoubot`.`kb_warn`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `krokmoubot`.`kb_warn` ;
+
+CREATE TABLE IF NOT EXISTS `krokmoubot`.`kb_warn` (
+  `wa_bi_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `wa_bi_memberId` BIGINT(18) NOT NULL,
+  `wa_bs_memberUsername` VARCHAR(40) NOT NULL,
+  `wa_bs_reason` VARCHAR(90) NOT NULL,
+  `wa_bd_warnDate` DATE NOT NULL,
+  `wa_bi_warnModId` BIGINT(18) NOT NULL,
+  PRIMARY KEY (`wa_bi_id`),
+  CONSTRAINT `FK_idModeratorWarn`
+    FOREIGN KEY (`wa_bi_warnModId`)
+    REFERENCES `krokmoubot`.`kb_moderator` (`mod_bi_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
