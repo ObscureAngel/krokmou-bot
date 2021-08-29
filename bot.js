@@ -96,7 +96,7 @@ lo_bot.on('error', po_error => {
 	console.error(new Date() + ' : ' + po_error.message);
 });
 
-lo_bot.on('message', po_message => {
+lo_bot.on('messageCreate', po_message => {
 	// Contrôles de l'auteur du message et du préfixe
 	if (!po_message.content.startsWith(ls_prefix)) return;
 
